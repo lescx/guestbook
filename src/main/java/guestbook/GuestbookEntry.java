@@ -21,6 +21,7 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.Id;
 
+import jakarta.validation.constraints.Email;
 import org.springframework.util.Assert;
 
 /**
@@ -37,6 +38,7 @@ class GuestbookEntry {
 	private @Id @GeneratedValue Long id;
 	private final String name, text;
 	private final LocalDateTime date;
+	private final @Email String email;
 
 	/**
 	 * Creates a new {@link GuestbookEntry} for the given name and text.
@@ -44,21 +46,23 @@ class GuestbookEntry {
 	 * @param name must not be {@literal null} or empty
 	 * @param text must not be {@literal null} or empty
 	 */
-	public GuestbookEntry(String name, String text) {
-
-		Assert.hasText(name, "Name must not be null or empty!");
+	public GuestbookEntry(String name, String text, String email) {
+        Assert.hasText(name, "Name must not be null or empty!");
 		Assert.hasText(text, "Text must not be null or empty!");
+		Assert.hasText(email, "Email must not be null or empty!");
 
 		this.name = name;
 		this.text = text;
 		this.date = LocalDateTime.now();
+		this.email = email;
 	}
 
 	@SuppressWarnings("unused")
 	private GuestbookEntry() {
-		this.name = null;
+        this.name = null;
 		this.text = null;
 		this.date = null;
+		this.email = null;
 	}
 
 	public String getName() {
@@ -76,4 +80,6 @@ class GuestbookEntry {
 	public String getText() {
 		return text;
 	}
+
+    public @Email String getEmail() { return email; }
 }
